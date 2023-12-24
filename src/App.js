@@ -24,7 +24,7 @@ function App() {
           <p className="p-2 text-sm"> Last updated: Dec 22nd 2023</p>
         </div>
       </div>
-      {helpOpen && <Modal helpOpen = {helpOpen} onClose={() => setHelpOpen(false)}></Modal>}
+      {helpOpen && <Modal onClose={() => setHelpOpen(false)}></Modal>}
     </div>
   );
 }

@@ -28,3 +28,8 @@
     border-left: 1px solid #011627;
 
 }
+
+.typed-text {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+}
