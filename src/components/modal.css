@@ -31,6 +31,9 @@
 
 .typed-text {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
+    font-size: 14px;
 }
 
+.letter-box {
+    border: 1px solid #011627;
+}

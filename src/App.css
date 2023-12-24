@@ -1,13 +1,15 @@
 .App {
   text-align: center;
   height: 100vh;
-  background-color: rgb(227,227,225);
   font-family: 'Arimo', sans-serif;
+  background-color: rgb(227,227,225);
 }
+.main {
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+}
+mark {
+  background-color: transparent !important;
+	color: rgb(6 95 70);
 }
 .logo {
   width: 75px;
@@ -18,10 +20,12 @@
   font-size: 20px;
 }
 .app-container{
-  height: 100vh;
+  height: calc(100vh - 45px);
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+
 }
 
 @media (prefers-reduced-motion: no-preference) {
