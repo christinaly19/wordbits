@@ -3,6 +3,7 @@
   height: 100vh;
   font-family: 'Arimo', sans-serif;
   background-color: rgb(227,227,225);
+  overflow: hidden;
 }
 .main {
 
