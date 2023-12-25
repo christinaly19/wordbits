@@ -9,6 +9,7 @@
     position: relative;
     margin-top: calc(50vh - 40px - 300px);
     border: solid 1px;
+    max-height: 600px;
 }
 
 .gameboard-grid-item {
@@ -23,17 +24,21 @@
 .gameboard-word-box {
     border: solid 1px;
     position: relative;
-    margin-top: calc(50vh - 40px - 300px);
-    width: 35%;
+    margin-top: 40px;
+    min-width: 39vw;
+    height: 68.5vh;
+    max-height: 560px;
     border: 1px solid #011627;
-    border-radius: 1em;
+    border-radius: 3px;
     box-shadow: -2px 5px 5px rgb(6 95 70);
 }
 
 .gameboard-currword-box  {
     border: 1px solid #011627;
-    border-radius: 1em;
+    margin-top: calc(50vh - 40px - 300px);
+    border-radius: 4px;
     box-shadow: -2px 5px 5px #bdbdbd;
-    width: 30%;
-    height: 35px;
+    min-width: 39vw;
+    min-height: 42px;
+    max-height: 42px;
 }
