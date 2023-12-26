@@ -2,13 +2,24 @@ import "./gameboard.css";
 import Navbar from "./navbar";
 import React, { useState, memo, useEffect } from "react";
 import WordDisplay from "./wordDisplay";
-import Cancel from "./exit.png"
-import Enter from "./check-mark.png"
+import Cancel from "./exit.png";
+import Enter from "./check-mark.png";
+import Disabled from "./check-mark-grey.png"
+import BackButtonDisabled from "./back-button-grey.png"
+import BackButton from "./back-button.png"
+
 const GameBoard = (letterArray) => {
   const [currWord, setCurrWord] = useState([]);
   const [listWords, setListWords] = useState([]);
   const [coordinates, setCoordinates] = useState([]);
   const [gameStarted, setGameStarted] = useState(false);
+
+  const handleRemoveLastCharacter = () => {
+    if (currWord.length > 0) {
+    setCurrWord(currWord.slice(0, -1));
+    setCoordinates(coordinates.slice(0,-1));
+    }
+  };
 
   useEffect(() => {
     if (coordinates.length === 0) {
@@ -79,8 +90,8 @@ const GameBoard = (letterArray) => {
       <div className="gameboard-main">
         <Navbar></Navbar>
         {!gameStarted ?
-        <div className="italic text-center instructions mt-5"> Click on any letter to start</div> :
-        <div className="italic text-center instructions mt-5"> Press ☑ to submit word or press ☒ to clear selection</div> 
+        <div className="italic text-center instructions mt-5 mx-3"> Click on any letter to start</div> :
+        <div className="italic text-center instructions mt-5 mx-3"> Press ☑ to submit word or press ☒ to clear selection</div> 
         }
         <div className="gameboard-grid-and-box mt-5 flex">
           <div className="ml-20 gameboard-grid grid grid-rows-24 grid-flow-col">
@@ -91,8 +102,9 @@ const GameBoard = (letterArray) => {
               <div></div>
               <p>{currWord}</p>
               <div className="flex">
-                <img className="mx-3 gameboard-icon" onClick = {() => {setCurrWord([]); setCoordinates([])}} src={Cancel}></img>
-                <img className="gameboard-icon" onClick={()=> {setListWords((prevWordList) => [...prevWordList, currWord]); setCurrWord([]); setCoordinates([])}} src={Enter}></img>
+                <img className="gameboard-icon" onClick = {() => {setCurrWord([]); setCoordinates([])}} src={Cancel}></img>
+                <img className="mx-3 gameboard-icon" onClick={()=> {if (currWord.length > 1) {setListWords((prevWordList) => [...prevWordList, currWord]); setCurrWord([]); setCoordinates([])}}} src={(currWord.length > 1) ? Enter : Disabled}></img>
+                <img className="gameboard-icon" onClick={handleRemoveLastCharacter} src={(currWord.length > 0) ? BackButton : BackButtonDisabled}></img>
               </div>
             </div>
             <div className="mt-10 ml-10 py-1 px-3 gameboard-word-box">
