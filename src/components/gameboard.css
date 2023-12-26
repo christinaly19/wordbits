@@ -38,8 +38,16 @@
     min-width: 39vw;
     min-height: 42px;
     max-height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between
 }
 
 .selected{
-    background-color: #047857
+    background-color: rgb(5 150 105);
+}
+.gameboard-icon {
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
 }
