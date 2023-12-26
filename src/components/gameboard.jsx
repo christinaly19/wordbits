@@ -7,8 +7,10 @@ import Enter from "./check-mark.png";
 import Disabled from "./check-mark-grey.png"
 import BackButtonDisabled from "./back-button-grey.png"
 import BackButton from "./back-button.png"
+import { fetchUrbanDictionaryData } from "./gameboard.js"
 
 const GameBoard = (letterArray) => {
+  
   const [currWord, setCurrWord] = useState([]);
   const [listWords, setListWords] = useState([]);
   const [coordinates, setCoordinates] = useState([]);
@@ -20,6 +22,24 @@ const GameBoard = (letterArray) => {
     setCoordinates(coordinates.slice(0,-1));
     }
   };
+  const handleEnterWord = () => {
+    if (currWord.length > 2) {
+      setListWords((prevWordList) => [...prevWordList, currWord]); 
+      setCurrWord([]); 
+      setCoordinates([])
+    }
+    const searchTerm = currWord;
+    const fetchData = async () => {
+      console.log(searchTerm);
+      try {
+        const data = await fetchUrbanDictionaryData(searchTerm);
+        console.log(data);
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+    fetchData();
+  }
 
   useEffect(() => {
     if (coordinates.length === 0) {
@@ -36,9 +56,7 @@ const GameBoard = (letterArray) => {
       !(x1 === x2 && y1 === y2)
     );
   };
-  useEffect(() => {
-    console.log(coordinates);
-  }, [coordinates]);
+
   const renderGrids = () => {
     const twoDArray = letterArray.letterArray;
     return twoDArray.map((row, rowIndex) => (
@@ -102,9 +120,9 @@ const GameBoard = (letterArray) => {
               <div></div>
               <p>{currWord}</p>
               <div className="flex">
-                <img className="gameboard-icon" onClick = {() => {setCurrWord([]); setCoordinates([])}} src={Cancel}></img>
-                <img className="mx-3 gameboard-icon" onClick={()=> {if (currWord.length > 1) {setListWords((prevWordList) => [...prevWordList, currWord]); setCurrWord([]); setCoordinates([])}}} src={(currWord.length > 1) ? Enter : Disabled}></img>
-                <img className="gameboard-icon" onClick={handleRemoveLastCharacter} src={(currWord.length > 0) ? BackButton : BackButtonDisabled}></img>
+              <img className="gameboard-icon" onClick={handleRemoveLastCharacter} src={(currWord.length > 0) ? BackButton : BackButtonDisabled}></img>
+                <img className="mx-3  gameboard-icon" onClick = {() => {setCurrWord([]); setCoordinates([])}} src={Cancel}></img>
+                <img className="gameboard-icon" onClick={handleEnterWord} src={(currWord.length > 1) ? Enter : Disabled}></img>
               </div>
             </div>
             <div className="mt-10 ml-10 py-1 px-3 gameboard-word-box">

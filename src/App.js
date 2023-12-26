@@ -4,7 +4,7 @@ import Homepage from "./components/homepage";
 import Modal from "./components/modal";
 import Navbar from "./components/navbar";
 import React, { useState } from "react";
-import GameBoard from "./components/gameboard";
+import GameBoard from "./components/gameboard.jsx";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 
 function PlayNow() {
