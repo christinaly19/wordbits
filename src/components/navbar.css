@@ -1,7 +1,9 @@
 .navbar-main {
     height: 45px;
-    font-family: 'Lora', serif;border-bottom: 1px solid black;
-    
+    position: absolute;
+    width: 100%;
+    font-family: 'Lora', serif;
+    border-bottom: 1px solid black;
 }
 
 .menu-icon {
