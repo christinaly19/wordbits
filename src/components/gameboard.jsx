@@ -15,6 +15,13 @@ const GameBoard = (letterArray) => {
   const [coordinates, setCoordinates] = useState([]);
   const [gameStarted, setGameStarted] = useState(false);
 
+  const addShake = () => {
+    const element = document.getElementById('shakeable-wordbox');
+    element.classList.add('shake');
+    setTimeout(() => {
+      element.classList.remove('shake');
+    }, 720);
+  }
   const handleRemoveLastCharacter = () => {
     if (currWord.length > 0) {
       setCurrWord(currWord.slice(0, -1));
@@ -34,6 +41,8 @@ const GameBoard = (letterArray) => {
           setCurrWord([]);
           setCoordinates([]);
           setListWords((prevWordList) => [...prevWordList, currWord]);
+        } else {
+          addShake();
         }
       } catch (error) {
         console.error(error.message);
@@ -130,7 +139,7 @@ const GameBoard = (letterArray) => {
               {renderGrids()}
             </div>
             <div>
-              <div className="ml-10 py-1 pl-24 pr-3 gameboard-currword-box flex justify-center text-2xl font-semibold">
+              <div id="shakeable-wordbox" className={`ml-10 py-1 pl-24 pr-3 gameboard-currword-box flex justify-center text-2xl font-semibold`}>
                 <div></div>
                 <p>{currWord}</p>
                 <div className="flex">
