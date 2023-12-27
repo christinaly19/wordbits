@@ -113,7 +113,7 @@ const GameBoard = (letterArray) => {
     <>
       <div className="gameboard-main">
       <Navbar></Navbar>
-        <div className="gameboard-grid-and-box mt-14 flex">
+        <div className="gameboard-grid-and-box mt-16 flex">
           {!gameStarted ? (
             <div className="italic text-center mb-4 instruction mx-3">
               {" "}
@@ -125,8 +125,8 @@ const GameBoard = (letterArray) => {
               Press ☑ to submit word, ← to delete the last letter, or  ☒ to clear selection
             </div>
           )}
-          <div className="flex">
-            <div className="ml-20 gameboard-grid grid grid-rows-24 grid-flow-col">
+          <div className="flex justify-center">
+            <div className="gameboard-grid grid grid-rows-24 grid-flow-col">
               {renderGrids()}
             </div>
             <div>
