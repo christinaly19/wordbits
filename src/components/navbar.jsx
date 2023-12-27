@@ -5,11 +5,18 @@ import React, { useState } from "react";
 import Edit from "./edit.svg"
 export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
+    const handleMenuToggle = () => {
+      if (menuOpen) {
+        setMenuOpen(false);
+       } else {
+        setMenuOpen(true);
+      }
+    }
   return (
     <>
-    <div className="flex justify-between navbar-main">
-      <img className="ml-2 mt-2 menu-icon" onClick = {()=> {if (menuOpen) setMenuOpen(false); else setMenuOpen(true)}} src={menuOpen ? Cross : Hamburger}></img>
-      <p className="ml-2 mt-3 text-lg">Word<mark>bits</mark></p>
+    <div className="flex navbar-main">
+      <img className="ml-2 mt-2 menu-icon" onClick = {handleMenuToggle} src={menuOpen ? Cross : Hamburger}></img>
+      <p className="mt-2 ml-4 font-semibold text-lg">Word<mark>bits</mark></p>
       <div></div>
     </div>
 

@@ -2,6 +2,7 @@
     height: 45px;
     position: absolute;
     width: 100%;
+    z-index: 999;
     font-family: 'Lora', serif;
     border-bottom: 1px solid black;
 }
@@ -9,9 +10,11 @@
 .menu-icon {
     width: 30px;
     height: 30px;
+    cursor: pointer;
 }
 .navbar-menu-dropdown {
     position: absolute;
+    top: 45px;
     z-index: 999;
     background-color: white;
     width: 20%;
