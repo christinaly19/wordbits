@@ -14,7 +14,15 @@ const GameBoard = (letterArray) => {
   const [listWords, setListWords] = useState([]);
   const [coordinates, setCoordinates] = useState([]);
   const [gameStarted, setGameStarted] = useState(false);
-
+  const [warning, setWarning] = useState(false);
+  useEffect(() => {
+    if (warning) {
+      const timeoutId = setTimeout(() => {
+        setWarning(false);
+      }, 2000);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [warning]);
   const addShake = () => {
     const element = document.getElementById('shakeable-wordbox');
     element.classList.add('shake');
@@ -43,6 +51,7 @@ const GameBoard = (letterArray) => {
           setListWords((prevWordList) => [...prevWordList, currWord]);
         } else {
           addShake();
+          setWarning(true);
         }
       } catch (error) {
         console.error(error.message);
@@ -126,7 +135,7 @@ const GameBoard = (letterArray) => {
           {!gameStarted ? (
             <div className="italic text-center mb-4 instruction mx-3">
               {" "}
-              Click on any letter to start
+              Click on any letter to start. Valid words are 3 or more letters long! 
             </div>
           ) : (
             <div className="italic text-center mb-4 instructions mx-3">
@@ -139,7 +148,7 @@ const GameBoard = (letterArray) => {
               {renderGrids()}
             </div>
             <div>
-              <div id="shakeable-wordbox" className={`ml-10 py-1 pl-24 pr-3 gameboard-currword-box flex justify-center text-2xl font-semibold`}>
+              <div id="shakeable-wordbox" className={`mb-3 ml-10 py-1 pl-24 pr-3 gameboard-currword-box flex justify-center text-2xl font-semibold`}>
                 <div></div>
                 <p>{currWord}</p>
                 <div className="flex">
@@ -163,7 +172,8 @@ const GameBoard = (letterArray) => {
                   ></img>
                 </div>
               </div>
-              <div className="mt-10 ml-10 py-1 px-3 gameboard-word-box">
+              <div className={`warning-message ml-10 text-xs text-rose-600 text-center  ${warning ? "visible" : ""}`}> Sorry, that is not a valid word </div> 
+              <div className="mt-4 ml-10 py-1 px-3 gameboard-word-box">
                 <h1 className="text-center font-semibold">
                   {" "}
                   Words Found ({listWords.length}){" "}
