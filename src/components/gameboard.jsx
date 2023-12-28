@@ -12,9 +12,11 @@ import { fetchUrbanDictionaryData } from "./gameboard.js";
 const GameBoard = (letterArray) => {
   const [currWord, setCurrWord] = useState([]);
   const [listWords, setListWords] = useState([]);
+  const [definitions, setDefinitions] = useState([]);
   const [coordinates, setCoordinates] = useState([]);
   const [gameStarted, setGameStarted] = useState(false);
   const [warning, setWarning] = useState(false);
+  const [showDisplay, setShowDisplay] = useState(false);
   useEffect(() => {
     if (warning) {
       const timeoutId = setTimeout(() => {
@@ -24,12 +26,12 @@ const GameBoard = (letterArray) => {
     }
   }, [warning]);
   const addShake = () => {
-    const element = document.getElementById('shakeable-wordbox');
-    element.classList.add('shake');
+    const element = document.getElementById("shakeable-wordbox");
+    element.classList.add("shake");
     setTimeout(() => {
-      element.classList.remove('shake');
+      element.classList.remove("shake");
     }, 720);
-  }
+  };
   const handleRemoveLastCharacter = () => {
     if (currWord.length > 0) {
       setCurrWord(currWord.slice(0, -1));
@@ -40,16 +42,18 @@ const GameBoard = (letterArray) => {
     if (currWord.length <= 2) {
       return;
     }
+    setShowDisplay(true);
     const searchTerm = currWord;
     const fetchData = async () => {
-      console.log(searchTerm);
       try {
         const data = await fetchUrbanDictionaryData(searchTerm);
         if (data.length > 0) {
           setCurrWord([]);
           setCoordinates([]);
           setListWords((prevWordList) => [...prevWordList, currWord]);
+          setDefinitions((prevDefinitions) => [...prevDefinitions, data])
         } else {
+          console.log("Hello")
           addShake();
           setWarning(true);
         }
@@ -130,17 +134,19 @@ const GameBoard = (letterArray) => {
   return (
     <>
       <div className="gameboard-main">
-      <Navbar></Navbar>
+        <Navbar></Navbar>
         <div className="gameboard-grid-and-box mt-16 flex">
           {!gameStarted ? (
             <div className="italic text-center mb-4 instruction mx-3">
               {" "}
-              Click on any letter to start. Valid words are 3 or more letters long! 
+              Click on any letter to start. Valid words are 3 or more letters
+              long!
             </div>
           ) : (
             <div className="italic text-center mb-4 instructions mx-3">
               {" "}
-              Press ☑ to submit word, ← to delete the last letter, or  ☒ to clear selection
+              Press ☑ to submit word, ← to delete the last letter, or ☒ to clear
+              selection
             </div>
           )}
           <div className="flex justify-center">
@@ -148,7 +154,10 @@ const GameBoard = (letterArray) => {
               {renderGrids()}
             </div>
             <div>
-              <div id="shakeable-wordbox" className={`mb-3 ml-10 py-1 pl-24 pr-3 gameboard-currword-box flex justify-center text-2xl font-semibold`}>
+              <div
+                id="shakeable-wordbox"
+                className={`mb-3 ml-10 py-1 pl-24 pr-3 gameboard-currword-box flex justify-center text-2xl font-semibold`}
+              >
                 <div></div>
                 <p>{currWord}</p>
                 <div className="flex">
@@ -172,14 +181,29 @@ const GameBoard = (letterArray) => {
                   ></img>
                 </div>
               </div>
-              <div className={`warning-message ml-10 text-xs text-rose-600 text-center  ${warning ? "visible" : ""}`}> Sorry, that is not a valid word </div> 
+              <div
+                className={`warning-message ml-10 text-xs text-rose-600 text-center  ${
+                  warning ? "visible" : ""
+                }`}
+              >
+                {" "}
+                Sorry, that is not a valid word{" "}
+              </div>
               <div className="mt-4 ml-10 py-1 px-3 gameboard-word-box">
                 <h1 className="text-center font-semibold">
                   {" "}
                   Words Found ({listWords.length}){" "}
                 </h1>
                 {listWords.map((word, index) => (
-                  <li key={index}>{word}</li>
+                  <div className="gameboard-wordbox-row text-base p-2 font-semibold mx-3 my-3">
+                    <div key={index}>{word}</div>
+                    <p className="font-normal text-xs"> 
+                    {definitions[index][0].phonetic} </p>
+                    {/***
+                      console.log(data[0].meanings[0].definitions[0].definition);
+                      console.log(data[0].phonetic); */}
+                    <p className="font-normal text-xs"> {definitions[index][0].meanings[0].definitions[0].definition} </p>
+                  </div>
                 ))}
               </div>
             </div>

@@ -1,0 +1,7 @@
+.display-main {
+    position: absolute;
+    top: 50%;
+    z-index: 999;
+    left: 50%;
+    background-color: white;
+}
