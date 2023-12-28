@@ -42,7 +42,6 @@ const GameBoard = (letterArray) => {
     if (currWord.length <= 2) {
       return;
     }
-    setShowDisplay(true);
     const searchTerm = currWord;
     const fetchData = async () => {
       try {
@@ -52,8 +51,8 @@ const GameBoard = (letterArray) => {
           setCoordinates([]);
           setListWords((prevWordList) => [...prevWordList, currWord]);
           setDefinitions((prevDefinitions) => [...prevDefinitions, data])
+          setShowDisplay(true);
         } else {
-          console.log("Hello")
           addShake();
           setWarning(true);
         }
@@ -94,7 +93,7 @@ const GameBoard = (letterArray) => {
                 <div
                   key={colIndex}
                   onClick={() => {
-                    if (isHovered || currWord.length === 0) {
+                    if  ((isHovered || currWord.length === 0) && (!showDisplay)) {
                       const isNewCoordinate = !coordinates.some(
                         (coord) => coord.x === rowIndex && coord.y === colIndex
                       );
@@ -112,7 +111,7 @@ const GameBoard = (letterArray) => {
                     }
                   }}
                   className={`gameboard-grid-item ${
-                    isHovered || currWord.length === 0
+                    ((isHovered || currWord.length === 0) && (!showDisplay))
                       ? "hover:bg-emerald-500"
                       : ""
                   } ${
@@ -133,7 +132,7 @@ const GameBoard = (letterArray) => {
   };
   return (
     <>
-      <div className="gameboard-main">
+      <div className={`gameboard-main ${showDisplay ? "darken" : ""}`}>
         <Navbar></Navbar>
         <div className="gameboard-grid-and-box mt-16 flex">
           {!gameStarted ? (
@@ -156,7 +155,7 @@ const GameBoard = (letterArray) => {
             <div>
               <div
                 id="shakeable-wordbox"
-                className={`mb-3 ml-10 py-1 pl-24 pr-3 gameboard-currword-box flex justify-center text-2xl font-semibold`}
+                className={`mb-3 ml-10 py-1 pl-24 pr-3 gameboard-currword-box flex justify-center text-2xl font-semibold  ${showDisplay ? "no-box-shadow" : ""}`}
               >
                 <div></div>
                 <p>{currWord}</p>
@@ -189,13 +188,13 @@ const GameBoard = (letterArray) => {
                 {" "}
                 Sorry, that is not a valid word{" "}
               </div>
-              <div className="mt-4 ml-10 py-1 px-3 gameboard-word-box">
+              <div className={`mt-4 ml-10 py-1 px-3 gameboard-word-box ${showDisplay ? "no-box-shadow" : ""}`}>
                 <h1 className="text-center font-semibold">
                   {" "}
                   Words Found ({listWords.length}){" "}
                 </h1>
                 {listWords.map((word, index) => (
-                  <div className="gameboard-wordbox-row text-base p-2 font-semibold mx-3 my-3">
+                  <div className={`gameboard-wordbox-row text-base p-2 font-semibold mx-3 my-3  ${showDisplay ? "wordbox-darken ": ""}`}>
                     <div key={index}>{word}</div>
                     <p className="font-normal text-xs"> 
                     {definitions[index][0].phonetic} </p>
@@ -209,6 +208,9 @@ const GameBoard = (letterArray) => {
             </div>
           </div>
         </div>
+        {showDisplay &&
+          <WordDisplay></WordDisplay>
+        }  
       </div>
     </>
   );

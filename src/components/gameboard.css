@@ -87,3 +87,14 @@
     90% { transform: translate(1px, 2px) rotate(0deg); }
     100% { transform: translate(1px, -2px) rotate(-1deg); }
   }
+
+  .darken {
+    background: rgba(0,0,0,0.50);
+  }
+  .wordbox-darken {
+    background: rgba(191, 203, 199, 0.2)
+  }
+
+  .no-box-shadow {
+    box-shadow: none;
+  }

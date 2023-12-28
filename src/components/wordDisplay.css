@@ -1,7 +1,10 @@
 .display-main {
-    position: absolute;
+    position: fixed;
     top: 50%;
-    z-index: 999;
     left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
     background-color: white;
-}
+    width: 30vw;
+    height: 30vh;
+  }
