@@ -17,6 +17,7 @@ const GameBoard = (letterArray) => {
   const [gameStarted, setGameStarted] = useState(false);
   const [warning, setWarning] = useState(false);
   const [showDisplay, setShowDisplay] = useState(false);
+
   useEffect(() => {
     if (warning) {
       const timeoutId = setTimeout(() => {
@@ -198,9 +199,6 @@ const GameBoard = (letterArray) => {
                     <div key={index}>{word}</div>
                     <p className="font-normal text-xs"> 
                     {definitions[index][0].phonetic} </p>
-                    {/***
-                      console.log(data[0].meanings[0].definitions[0].definition);
-                      console.log(data[0].phonetic); */}
                     <p className="font-normal text-xs"> {definitions[index][0].meanings[0].definitions[0].definition} </p>
                   </div>
                 ))}
@@ -209,7 +207,7 @@ const GameBoard = (letterArray) => {
           </div>
         </div>
         {showDisplay &&
-          <WordDisplay word={currWord}></WordDisplay>
+          <WordDisplay onClose={()=> {setShowDisplay(false); setCoordinates([]); setCurrWord([])}} word={currWord}></WordDisplay>
         }  
       </div>
     </>

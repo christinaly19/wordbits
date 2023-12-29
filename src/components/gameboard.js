@@ -1,5 +1,4 @@
 export const fetchUrbanDictionaryData = async (word) => {
-	console.log(word);
 	const resultString = word.join('');
 	console.log(resultString);
 	const apiUrl = `https://api.dictionaryapi.dev/api/v2/entries/en/${resultString}`;
