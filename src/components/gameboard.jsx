@@ -47,11 +47,11 @@ const GameBoard = (letterArray) => {
       try {
         const data = await fetchUrbanDictionaryData(searchTerm);
         if (data.length > 0) {
-          setCurrWord([]);
+          setShowDisplay(true);
+          // setCurrWord([]);
           setCoordinates([]);
           setListWords((prevWordList) => [...prevWordList, currWord]);
           setDefinitions((prevDefinitions) => [...prevDefinitions, data])
-          setShowDisplay(true);
         } else {
           addShake();
           setWarning(true);
@@ -209,7 +209,7 @@ const GameBoard = (letterArray) => {
           </div>
         </div>
         {showDisplay &&
-          <WordDisplay></WordDisplay>
+          <WordDisplay word={currWord}></WordDisplay>
         }  
       </div>
     </>

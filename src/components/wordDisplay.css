@@ -4,7 +4,36 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 999;
-    background-color: white;
+    background-color: #F9f9f9;
     width: 30vw;
-    height: 30vh;
+    height: 50vh;
+    border-radius: 5px;
+    min-width: 300px;
+  }
+  .search-term-box {
+    width: 100%;
+    background-color: white;
+    border-radius: 20px;
+    border: 0.5px solid black;
+    align-items: center;
+  }
+  .display-search-logo {
+    width: 30px;
+    height: 30px;
+  }
+
+  .display-hint-box {
+    border: 0.5px solid black;
+    width: 100%;
+    border-radius: 1px;
+    cursor: pointer;
+  }
+  .display-arrow-logo {
+    width: 20px;
+    height: 25px;
+  }
+
+  .display-star-logo {
+    width: 40px;
+    height: 40px;
   }
