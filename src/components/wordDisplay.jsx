@@ -3,11 +3,12 @@ import Magnify from "./magnifying-glass.png";
 import Arrow from "./right-arrow.png";
 import UnfilledStar from "./unfilled-star.png";
 import { useState } from "react";
+import FilledStar from "./star.png"
 export default function WordDisplay(props) {
   const [closestWords, setClosestWords] = useState([]);
   const wordString = props.word.join("");
   const [inputText, setInputText] = useState("");
-
+  const [isCorrect, setisCorrect] = useState(false);
   const handleInputChange = (e) => {
     setInputText(e.target.value);
   };
@@ -18,11 +19,19 @@ export default function WordDisplay(props) {
         `http://127.0.0.1:5000/get_closest_embeddings?word=${inputValue}`
       );
       const data = await response.json();
-      console.log(data);
+      console.log(data.closest_words);
+      const containsInputText = data.closest_words.includes(inputText.toLowerCase());
+      const containsWord = data.closest_words.some(word => word === inputText.toLowerCase());
+      if (containsInputText || containsWord) {
+        console.log("here");
+        setisCorrect(true);
+      }
+    console.log("Contains word:", containsWord);
       setClosestWords(data.closest_words);
     } catch (error) {
       console.error("Error:", error);
     }
+    
   };
   const handleClose = () => {
     props.onClose();
@@ -88,7 +97,7 @@ export default function WordDisplay(props) {
                 Submit{" "}
               </button>
             </div>
-            {/* <img className="display-star-logo"src={UnfilledStar}></img> */}
+            <img className="display-star-logo" src={isCorrect ? FilledStar : UnfilledStar} ></img>
           </div>
         </div>
       </div>
