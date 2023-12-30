@@ -80,8 +80,8 @@ export default function WordDisplay(props) {
               <button
                 disabled={inputText === ""}
                 onClick={handleSubmitWord}
-                className={`font-semibold display-submit-button border py-2 mx-3 px-4 hover:bg-emerald-600 hover:text-white disabled:opacity-60
-                ${(inputText === "") ? "hover:text-emerald-600 hover:bg-transparent" : ""}
+                className={`font-semibold display-submit-button border py-2 mx-3 px-4 hover:bg-emerald-600 hover:text-white disabled:opacity-50
+                ${(inputText === "") ? "hover:text-green-600 hover:bg-transparent" : ""}
                 `}
               >
                 {" "}
