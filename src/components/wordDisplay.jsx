@@ -2,46 +2,61 @@ import "./wordDisplay.css";
 import Magnify from "./magnifying-glass.png";
 import Arrow from "./right-arrow.png";
 import UnfilledStar from "./unfilled-star.png";
-import { useState } from "react";
-import FilledStar from "./star.png"
+import { useState, useEffect } from "react";
+import FilledStar from "./star.png";
 export default function WordDisplay(props) {
   const [closestWords, setClosestWords] = useState([]);
   const wordString = props.word.join("");
   const [inputText, setInputText] = useState("");
   const [isCorrect, setisCorrect] = useState(false);
+
+  useEffect(() => {
+    getClosestWords();
+  }, []);
+
   const handleInputChange = (e) => {
     setInputText(e.target.value);
   };
-  const handleSubmitWord = async () => {
+
+  const getClosestWords = async () => {
     try {
-      const inputValue = wordString.toLowerCase();
+      const searchTerm = wordString.toLowerCase();
       const response = await fetch(
-        `http://127.0.0.1:5000/get_closest_embeddings?word=${inputValue}`
+        `http://127.0.0.1:5000/get_closest_embeddings?word=${searchTerm}`
       );
       const data = await response.json();
-      const containsInputText = data.closest_words.includes(inputText.toLowerCase());
-      const containsWord = data.closest_words.some(word => word === inputText.toLowerCase());
-      const isInSyns = props.allSyn.includes(inputText.toLowerCase());
-      if (containsInputText || containsWord || isInSyns) {
-        console.log("here");
-        setisCorrect(true);
-      }
       setClosestWords(data.closest_words);
     } catch (error) {
       console.error("Error:", error);
     }
-    
   };
+
+  const handleSubmitWord = async () => {
+      const containsInputText = closestWords.includes(inputText.toLowerCase());
+      console.log(closestWords);
+      console.log(props.allSyn[0]);
+      const containsWord = closestWords.some(
+        (word) => word === inputText.toLowerCase()
+      );
+      const isInSyns = props.allSyn[0].map(syn => syn.toLowerCase()).includes(inputText.toLowerCase());
+      if (containsInputText || containsWord || isInSyns) {
+        setisCorrect(true);
+      }
+  };
+
   const handleClose = () => {
     props.onClose();
-}
+  };
 
   return (
     <div className="display-main">
       <div className="flex justify-end">
-        <button onClick={handleClose} className="display-close bg-red-600 font-semibold text-white flex justify-center">
-            <p className="text-xs"> x </p>
-            </button>
+        <button
+          onClick={handleClose}
+          className="display-close bg-red-600 font-semibold text-white flex justify-center"
+        >
+          <p className="text-xs"> x </p>
+        </button>
       </div>
       <div className="mt-2 px-5">
         <div className="search-term-box flex justify-between align-middle py-2 pl-4 pr-3">
@@ -89,14 +104,21 @@ export default function WordDisplay(props) {
                 disabled={inputText === ""}
                 onClick={handleSubmitWord}
                 className={`font-semibold display-submit-button border py-2 mx-3 px-4 hover:bg-emerald-600 hover:text-white disabled:opacity-50
-                ${(inputText === "") ? "hover:text-green-600 hover:bg-transparent" : ""}
+                ${
+                  inputText === ""
+                    ? "hover:text-green-600 hover:bg-transparent"
+                    : ""
+                }
                 `}
               >
                 {" "}
                 Submit{" "}
               </button>
             </div>
-            <img className="display-star-logo" src={isCorrect ? FilledStar : UnfilledStar} ></img>
+            <img
+              className="display-star-logo"
+              src={isCorrect ? FilledStar : UnfilledStar}
+            ></img>
           </div>
         </div>
       </div>
