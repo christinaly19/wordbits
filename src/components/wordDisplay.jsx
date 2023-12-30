@@ -19,14 +19,13 @@ export default function WordDisplay(props) {
         `http://127.0.0.1:5000/get_closest_embeddings?word=${inputValue}`
       );
       const data = await response.json();
-      console.log(data.closest_words);
       const containsInputText = data.closest_words.includes(inputText.toLowerCase());
       const containsWord = data.closest_words.some(word => word === inputText.toLowerCase());
-      if (containsInputText || containsWord) {
+      const isInSyns = props.allSyn.includes(inputText.toLowerCase());
+      if (containsInputText || containsWord || isInSyns) {
         console.log("here");
         setisCorrect(true);
       }
-    console.log("Contains word:", containsWord);
       setClosestWords(data.closest_words);
     } catch (error) {
       console.error("Error:", error);

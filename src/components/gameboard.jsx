@@ -17,6 +17,7 @@ const GameBoard = (letterArray) => {
   const [gameStarted, setGameStarted] = useState(false);
   const [warning, setWarning] = useState(false);
   const [showDisplay, setShowDisplay] = useState(false);
+  const [allSyn, setAllSyn] = useState([]);
 
   useEffect(() => {
     if (warning) {
@@ -49,10 +50,18 @@ const GameBoard = (letterArray) => {
         const data = await fetchUrbanDictionaryData(searchTerm);
         if (data.length > 0) {
           setShowDisplay(true);
-          // setCurrWord([]);
           setCoordinates([]);
           setListWords((prevWordList) => [...prevWordList, currWord]);
           setDefinitions((prevDefinitions) => [...prevDefinitions, data])
+          const newSyn = [];
+          data.forEach(item => {
+            item.meanings.forEach(meaning => {
+              newSyn.push(...meaning.synonyms);
+            });
+          });
+          setAllSyn((prevSyn) => {
+            return [newSyn];
+          });
         } else {
           addShake();
           setWarning(true);
@@ -207,7 +216,7 @@ const GameBoard = (letterArray) => {
           </div>
         </div>
         {showDisplay &&
-          <WordDisplay onClose={()=> {setShowDisplay(false); setCoordinates([]); setCurrWord([])}} word={currWord}></WordDisplay>
+          <WordDisplay onClose={()=> {setShowDisplay(false); setCoordinates([]); setCurrWord([])}} allSyn = {allSyn} word={currWord}></WordDisplay>
         }  
       </div>
     </>
