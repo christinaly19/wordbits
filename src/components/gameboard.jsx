@@ -52,7 +52,7 @@ const GameBoard = (letterArray) => {
           console.log(data);
           setShowDisplay(true);
           setCoordinates([]);
-          setListWords((prevWordList) => [...prevWordList, currWord]);
+          setListWords((prevWordList) => [...prevWordList, currWord.join('')]);
           setDefinitions((prevDefinitions) => [...prevDefinitions, data])
           const newSyn = [];
           data.forEach(item => {
@@ -186,7 +186,11 @@ const GameBoard = (letterArray) => {
                   ></img>
                   <img
                     className="gameboard-icon"
-                    onClick={handleEnterWord}
+                    onClick={() => {
+                      console.log(listWords);
+                      if (!listWords.includes(currWord.join(''))) {
+                        handleEnterWord()};
+                      }}
                     src={currWord.length > 1 ? Enter : Disabled}
                   ></img>
                 </div>

@@ -13,9 +13,15 @@ export default function WordDisplay(props) {
   const [isCorrect, setisCorrect] = useState(false);
   let [loading, setLoading] = useState(false);
   let [color, setColor] = useState("#059669");
+  const [disabled, setDisabled] = useState(true);
+
   useEffect(() => {
     getClosestWords();
   }, []);
+
+  useEffect(() => {
+    console.log(closestWords);
+  }, [closestWords]);
 
 
 const override = {
@@ -46,6 +52,7 @@ const override = {
       );
       const data = await response.json();
       setClosestWords(data.closest_words);
+      setDisabled(false);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -53,8 +60,6 @@ const override = {
 
   const handleSubmitWord = async () => {
     const containsInputText = closestWords.includes(inputText.toLowerCase());
-    console.log(closestWords);
-    console.log(props.allSyn[0]);
     const containsWord = closestWords.some(
       (word) => word === inputText.toLowerCase()
     );
@@ -137,7 +142,7 @@ const override = {
     
               {!loading && (
                 <button
-                  disabled={inputText === ""}
+                  disabled={inputText === "" || disabled} // disabled until call to getclosestwords is complete
                   onClick={handleSubmitWord}
                   className={`font-semibold display-submit-button border py-2 mx-3 px-4 hover:bg-emerald-600 hover:text-white disabled:opacity-50
                 ${
