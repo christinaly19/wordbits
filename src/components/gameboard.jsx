@@ -18,7 +18,9 @@ const GameBoard = (letterArray) => {
   const [warning, setWarning] = useState(false);
   const [showDisplay, setShowDisplay] = useState(false);
   const [allSyn, setAllSyn] = useState([]);
-
+  const [partOfSpeech, setPartofSpeech] = useState("");
+  const [numDefs, setNumDefs] = useState(0);
+  const [hintDef, setHintDef] = useState("");
   useEffect(() => {
     if (warning) {
       const timeoutId = setTimeout(() => {
@@ -53,7 +55,10 @@ const GameBoard = (letterArray) => {
           setShowDisplay(true);
           setCoordinates([]);
           setListWords((prevWordList) => [...prevWordList, currWord.join('')]);
-          setDefinitions((prevDefinitions) => [...prevDefinitions, data])
+          setDefinitions((prevDefinitions) => [...prevDefinitions, data]);
+          setPartofSpeech(data[0].meanings[0].partOfSpeech);
+          setNumDefs(data[0].meanings.length);
+          setHintDef(data[0].meanings[0].definitions[0].definition)
           const newSyn = [];
           data.forEach(item => {
             item.meanings.forEach(meaning => {
@@ -221,7 +226,14 @@ const GameBoard = (letterArray) => {
           </div>
         </div>
         {showDisplay &&
-          <WordDisplay onClose={()=> {setShowDisplay(false); setCoordinates([]); setCurrWord([])}} allSyn = {allSyn} word={currWord}></WordDisplay>
+          <WordDisplay 
+          onClose={()=> {setShowDisplay(false); setCoordinates([]); setCurrWord([])}}
+          allSyn = {allSyn} 
+          word={currWord}
+          partOfSpeech = {partOfSpeech}
+          numDef = {numDefs}
+          hintDef = {hintDef}
+          ></WordDisplay>
         }  
       </div>
     </>

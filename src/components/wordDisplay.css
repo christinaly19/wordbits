@@ -6,7 +6,7 @@
     z-index: 999;
     background-color: #F9f9f9;
     width: 30vw;
-    height: 50vh;
+    height: 52vh;
     border-radius: 5px;
     min-width: 400px;
     border: 1px solid black;
@@ -51,4 +51,8 @@
   height: 19px;
   border-radius: 0px 3px 0px 0px;
   
+}
+
+.display-input-text {
+  width: 45%;
 }

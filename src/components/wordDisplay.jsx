@@ -14,15 +14,19 @@ export default function WordDisplay(props) {
   let [loading, setLoading] = useState(false);
   let [color, setColor] = useState("#059669");
   const [disabled, setDisabled] = useState(true);
+  const [reveal, setReveals ] = useState([false, false, false]);
+
+  function handleReveal(number) {
+    setReveals(prevReveals => {
+      const newReveals = [...prevReveals];
+      newReveals[number] = true;
+      return newReveals;
+    });
+  }
 
   useEffect(() => {
     getClosestWords();
   }, []);
-
-  useEffect(() => {
-    console.log(closestWords);
-  }, [closestWords]);
-
 
 const override = {
   position: "relative",
@@ -96,7 +100,9 @@ const override = {
           </h1>
           <img className="display-search-logo" src={Magnify}></img>
         </div>
+        {!reveal[0] ? (
         <div
+          onClick = {() => handleReveal(0)}
           className="bg-gradient-to-r bg-emerald-300/50 mt-3 display-first-hint display-hint-box py-3 px-4 flex justify-between
             hover:font-semibold hover:border 
             hover:from-teal-300/50 hover:to-emerald-300/50"
@@ -104,7 +110,16 @@ const override = {
           <p className=""> Reveal hint #1</p>
           <img className="display-arrow-logo" src={Arrow}></img>
         </div>
+        ) : (
+          <div className="mt-3 py-3 px-2">
+            <h1> Part of speech: {wordString} is a <mark> {props.partOfSpeech} </mark></h1>
+          </div>
+        )
+       }
+       
+       {!reveal[1] ? (
         <div
+        onClick = {() => handleReveal(1)}
           className="bg-gradient-to-r bg-emerald-500/50 my-3 display-second-hint display-hint-box p-3 px-4 flex justify-between
                hover:font-semibold hover:border
                hover:from-teal-300/50 hover:to-emerald-500/50"
@@ -112,7 +127,15 @@ const override = {
           <p className=""> Reveal hint #2</p>
           <img className="display-arrow-logo" src={Arrow}></img>
         </div>
+       ) : (
+        <div className="mt-2 mb-3 py-3 px-2">
+        <p> Number of Defns: {wordString} has <mark> {props.numDef} possible definitions </mark></p>
+        </div>
+       )
+        }
+      {!reveal[2] ? (
         <div
+        onClick = {() => handleReveal(2)}
           className="bg-gradient-to-r bg-emerald-600/60 display-third-hint display-hint-box p-3 px-4 flex justify-between 
             hover:font-semibold hover:border
             hover:from-teal-300/50 hover:to-emerald-600/60"
@@ -120,13 +143,18 @@ const override = {
           <p> Reveal hint #3</p>
           <img className="display-arrow-logo" src={Arrow}></img>
         </div>
+      ) : (
+        <div className="mt-2 py-3 px-2">
+        <p> Possible Defn: <mark>{wordString} </mark> {props.hintDef} </p>
+        </div>
+      )}
         <div className="text-gray-700 flex flex-col">
           <h1 className="mt-4 italic"> Enter a synonym or related word:</h1>
           <div className="display-syn-box mt-2 flex justify-between">
             <div>
               <input
-                className="text-base border-2 py-2 px-4"
-                placeholder="Enter word here"
+                className="display-input-text text-base border-2 py-2 px-4"
+                placeholder="Enter word"
                 value={inputText} // Controlled input using state
                 onChange={handleInputChange}
               ></input>
@@ -146,7 +174,7 @@ const override = {
                   onClick={handleSubmitWord}
                   className={`font-semibold display-submit-button border py-2 mx-3 px-4 hover:bg-emerald-600 hover:text-white disabled:opacity-50
                 ${
-                  inputText === ""
+                  (inputText === "" || disabled)
                     ? "hover:text-green-700 hover:bg-transparent"
                     : ""
                 }
