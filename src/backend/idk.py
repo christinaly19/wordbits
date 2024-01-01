@@ -27,7 +27,7 @@ def get_closest_embeddings():
     word = request.args.get('word')
     if word not in embeddings_dict:
         return jsonify({"error": "Word not found in embeddings dictionary"})
-
+    print(word);
     target_embedding = embeddings_dict[word]
     closest_words = find_closest_embeddings(target_embedding)
     print(closest_words[:1]) 

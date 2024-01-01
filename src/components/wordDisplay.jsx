@@ -1,18 +1,37 @@
 import "./wordDisplay.css";
 import Magnify from "./magnifying-glass.png";
 import Arrow from "./right-arrow.png";
-import UnfilledStar from "./unfilled-star.png";
+import UnfilledStar from "./unfilled-star.svg";
 import { useState, useEffect } from "react";
-import FilledStar from "./star.png";
+import FilledStar from "./star.svg";
+import ClipLoader from "react-spinners/ClipLoader";
+
 export default function WordDisplay(props) {
   const [closestWords, setClosestWords] = useState([]);
   const wordString = props.word.join("");
   const [inputText, setInputText] = useState("");
   const [isCorrect, setisCorrect] = useState(false);
-
+  let [loading, setLoading] = useState(false);
+  let [color, setColor] = useState("#059669");
   useEffect(() => {
     getClosestWords();
   }, []);
+
+
+const override = {
+  position: "relative",
+  top: "5px",
+  left: "10px"
+};
+
+  useEffect(() => {
+    if (loading) {
+      const timeoutId = setTimeout(() => {
+        setLoading(false);
+      }, 2000);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [loading]);
 
   const handleInputChange = (e) => {
     setInputText(e.target.value);
@@ -21,6 +40,7 @@ export default function WordDisplay(props) {
   const getClosestWords = async () => {
     try {
       const searchTerm = wordString.toLowerCase();
+      console.log(searchTerm);
       const response = await fetch(
         `http://127.0.0.1:5000/get_closest_embeddings?word=${searchTerm}`
       );
@@ -32,16 +52,21 @@ export default function WordDisplay(props) {
   };
 
   const handleSubmitWord = async () => {
-      const containsInputText = closestWords.includes(inputText.toLowerCase());
-      console.log(closestWords);
-      console.log(props.allSyn[0]);
-      const containsWord = closestWords.some(
-        (word) => word === inputText.toLowerCase()
-      );
-      const isInSyns = props.allSyn[0].map(syn => syn.toLowerCase()).includes(inputText.toLowerCase());
+    const containsInputText = closestWords.includes(inputText.toLowerCase());
+    console.log(closestWords);
+    console.log(props.allSyn[0]);
+    const containsWord = closestWords.some(
+      (word) => word === inputText.toLowerCase()
+    );
+    const isInSyns = props.allSyn[0]
+      .map((syn) => syn.toLowerCase())
+      .includes(inputText.toLowerCase());
       if (containsInputText || containsWord || isInSyns) {
-        setisCorrect(true);
+        setTimeout(() => {
+          setisCorrect(true);
+        }, 2000);
       }
+    setLoading(true);
   };
 
   const handleClose = () => {
@@ -100,20 +125,33 @@ export default function WordDisplay(props) {
                 value={inputText} // Controlled input using state
                 onChange={handleInputChange}
               ></input>
-              <button
-                disabled={inputText === ""}
-                onClick={handleSubmitWord}
-                className={`font-semibold display-submit-button border py-2 mx-3 px-4 hover:bg-emerald-600 hover:text-white disabled:opacity-50
+           
+              <ClipLoader
+                color={color}
+                loading={loading}
+                size={25}
+                cssOverride={override}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+              />
+    
+              {!loading && (
+                <button
+                  disabled={inputText === ""}
+                  onClick={handleSubmitWord}
+                  className={`font-semibold display-submit-button border py-2 mx-3 px-4 hover:bg-emerald-600 hover:text-white disabled:opacity-50
                 ${
                   inputText === ""
-                    ? "hover:text-green-600 hover:bg-transparent"
+                    ? "hover:text-green-700 hover:bg-transparent"
                     : ""
                 }
                 `}
-              >
-                {" "}
-                Submit{" "}
-              </button>
+                >
+                  {" "}
+                  Submit{" "}
+                </button>
+              )
+              }
             </div>
             <img
               className="display-star-logo"

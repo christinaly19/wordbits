@@ -49,6 +49,7 @@ const GameBoard = (letterArray) => {
       try {
         const data = await fetchUrbanDictionaryData(searchTerm);
         if (data.length > 0) {
+          console.log(data);
           setShowDisplay(true);
           setCoordinates([]);
           setListWords((prevWordList) => [...prevWordList, currWord]);
