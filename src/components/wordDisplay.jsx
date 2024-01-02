@@ -100,6 +100,7 @@ const override = {
           </h1>
           <img className="display-search-logo" src={Magnify}></img>
         </div>
+      <div className="">
         {!reveal[0] ? (
         <div
           onClick = {() => handleReveal(0)}
@@ -111,7 +112,7 @@ const override = {
           <img className="display-arrow-logo" src={Arrow}></img>
         </div>
         ) : (
-          <div className="mt-3 py-3 px-2">
+          <div className="my-3 display-second-hint display-hint-box hint-revealed p-3 px-4">
             <h1> Part of speech: {wordString} is a <mark> {props.partOfSpeech} </mark></h1>
           </div>
         )
@@ -128,8 +129,8 @@ const override = {
           <img className="display-arrow-logo" src={Arrow}></img>
         </div>
        ) : (
-        <div className="mt-2 mb-3 py-3 px-2">
-        <p> Number of Defns: {wordString} has <mark> {props.numDef} possible definitions </mark></p>
+        <div className="my-3 display-second-hint display-hint-box hint-revealed p-3 px-4">
+        <p> Number of Defns: {wordString} has <mark> {props.numDef} possible definition(s) </mark></p>
         </div>
        )
         }
@@ -144,18 +145,19 @@ const override = {
           <img className="display-arrow-logo" src={Arrow}></img>
         </div>
       ) : (
-        <div className="mt-2 py-3 px-2">
-        <p> Possible Defn: <mark>{wordString} </mark> {props.hintDef} </p>
+        <div className="my-3 display-second-hint display-hint-box p-3 px-4 hint-revealed">
+        <p> <mark>{wordString}: </mark> {props.hintDef} </p>
         </div>
       )}
-        <div className="text-gray-700 flex flex-col">
+      </div>
+        <div className="px-2 text-gray-700 flex flex-col">
           <h1 className="mt-4 italic"> Enter a synonym or related word:</h1>
           <div className="display-syn-box mt-2 flex justify-between">
             <div>
               <input
                 className="display-input-text text-base border-2 py-2 px-4"
                 placeholder="Enter word"
-                value={inputText} // Controlled input using state
+                value={inputText}
                 onChange={handleInputChange}
               ></input>
            
@@ -175,7 +177,7 @@ const override = {
                   className={`font-semibold display-submit-button border py-2 mx-3 px-4 hover:bg-emerald-600 hover:text-white disabled:opacity-50
                 ${
                   (inputText === "" || disabled)
-                    ? "hover:text-green-700 hover:bg-transparent"
+                    ? "hover:text-green-600 hover:bg-transparent"
                     : ""
                 }
                 `}

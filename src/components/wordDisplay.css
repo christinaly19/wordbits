@@ -10,6 +10,8 @@
     border-radius: 5px;
     min-width: 400px;
     border: 1px solid black;
+    min-height: 350px;
+    max-height: 400px;
   }
   .search-term-box {
     width: 100%;
@@ -55,4 +57,9 @@
 
 .display-input-text {
   width: 45%;
+}
+
+.hint-revealed {
+  max-height: 50px;
+  overflow-y: auto;
 }
