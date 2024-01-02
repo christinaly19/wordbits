@@ -2,8 +2,11 @@ import "./navbar.css";
 import Hamburger from "./burger-menu-svgrepo-com.svg";
 import Cross from "./cross-svgrepo-com.svg"
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import Edit from "./edit.svg"
+
 export default function Navbar() {
+    const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
     const handleMenuToggle = () => {
       if (menuOpen) {
@@ -12,11 +15,19 @@ export default function Navbar() {
         setMenuOpen(true);
       }
     }
+
+    function navigateToHome() {
+      navigate('/');
+    }
+
+    
   return (
     <>
     <div className="flex navbar-main">
       <img className="ml-2 mt-2 menu-icon" onClick = {handleMenuToggle} src={menuOpen ? Cross : Hamburger}></img>
-      <p className="mt-2 ml-4 font-semibold text-lg">Word<mark>bits</mark></p>
+      <div className="navbar-home">
+      <p onClick={() => navigateToHome()}className="mt-2 ml-4 font-semibold text-lg">Word<mark>bits</mark></p>
+      </div>
       <div></div>
     </div>
 

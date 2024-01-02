@@ -8,7 +8,7 @@ export default function Homepage() {
     const [helpOpen, setHelpOpen] = useState(false);
     const [playNowClicked, setPlayNowClicked] = useState(false);
 return (
-    <div className="App">
+    <div className={`App ${helpOpen ? "darken" : ""}`}>
       <div className="main">
         <Navbar></Navbar>
         <div className="app-container">

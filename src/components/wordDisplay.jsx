@@ -113,7 +113,7 @@ const override = {
         </div>
         ) : (
           <div className="my-3 display-second-hint display-hint-box hint-revealed p-3 px-4">
-            <h1> Part of speech: {wordString} is a <mark> {props.partOfSpeech} </mark></h1>
+            <h1> {wordString} is a <mark> {props.partOfSpeech} </mark></h1>
           </div>
         )
        }
@@ -130,7 +130,7 @@ const override = {
         </div>
        ) : (
         <div className="my-3 display-second-hint display-hint-box hint-revealed p-3 px-4">
-        <p> Number of Defns: {wordString} has <mark> {props.numDef} possible definition(s) </mark></p>
+        <p> {wordString} has <mark> {props.numDef} possible definition(s) </mark></p>
         </div>
        )
         }
@@ -174,13 +174,7 @@ const override = {
                 <button
                   disabled={inputText === "" || disabled} // disabled until call to getclosestwords is complete
                   onClick={handleSubmitWord}
-                  className={`font-semibold display-submit-button border py-2 mx-3 px-4 hover:bg-emerald-600 hover:text-white disabled:opacity-50
-                ${
-                  (inputText === "" || disabled)
-                    ? "hover:text-green-600 hover:bg-transparent"
-                    : ""
-                }
-                `}
+                  className="font-semibold display-submit-button py-2 mx-3 px-4"
                 >
                   {" "}
                   Submit{" "}
